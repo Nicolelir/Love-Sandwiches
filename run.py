@@ -46,9 +46,10 @@ def get_sales_data(): #add a docstring here to describe  what our get_sales_data
 #create a function to validate our data before allowing the rest of the program to continue.   
 def validate_data(values): #And we will pass it a parameter  of “values” which will be our sales data list.
     """
-    Inside the try, converts all string values into integers.
-    Raises ValueError if strings cannot be converted into int,
-    or if there aren't exactly 6 values.
+    Get sales figures input from the user.
+    Run a while loop to collect a valid string of data from the user
+    via the terminal, which must be a string of 6 numbers separated
+    by commas. The loop will repeatedly request data, until it is valid.
     """
 
     try:
@@ -63,5 +64,24 @@ def validate_data(values): #And we will pass it a parameter  of “values” whi
 
     return True  #--3--  If our function runs without any errors, we can return True after the try except statement has completed.
 
+#--5--build a  function that inserts this sales_data as a new entry in our sales  worksheet over in our Google Sheet.
+def update_sales_worksheet(data):
+    """
+    Update sales worksheet, add new row with the list data provided
+    """
+    print("Updating sales worksheet...\n") #--4--The purpose of this is to give the user some  feedback in the terminal as our program completes its task.
+    
+    """
+    Now we need to access our sales  worksheet from our Google Sheet  
+    so that we can add our data to it. So  we’ll declare a variable sales_worksheet,  
+    and then we use the sheet variable we defined at  the top of our page using the gspread library
+    """
+    sales_worksheet = SHEET.worksheet("sales") #--5-- And we’ll use the gspread worksheet()  method to access our sales worksheet.  
+    sales_worksheet.append_row(data) #--5-- another of gspreads methods called append_row() and pass  it our data to be inserted. The append_row method adds a new row to the  end of our data in the worksheet selected. 
+    print("Sales worksheet updated successfully.\n")
+
 data = get_sales_data()#call the function It’s python3 run.py in console
-                       # we add data = in --3-- so  Now our function returns a  value, we need a place to put it, back where it was called. So let’s  define a new variable here called data.
+                       # we add data = in --3-- so  Now our function returns a  value, we need a place to put it, back where it was called. So let’s  define a new variable here called data.3
+print(data)#--3--
+sales_data = [int(num) for num in data] # --4--let’s create a new list comprehension here to transform strings into intergers. we’ll assign the result from the list  comprehension to a new variable named sales_data.
+update_sales_worksheet(sales_data)# --4--
