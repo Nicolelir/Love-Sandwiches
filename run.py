@@ -16,8 +16,16 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE) # Using the  with_scopes method of the c
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS) # Using the gspread authorize method,  and pass it our SCOPED_CREDS.
 SHEET = GSPREAD_CLIENT.open('love_sandwiches') # we can access our  love_sandwiches sheet, using the open() method on our client object  and passing it the name we gave our spreadsheet.
 
-sales = SHEET.worksheet('sales') #define a new variable named “sales” and using the worksheet method of the sheet,  we can call our “sales” worksheet.  
+def get_sales_data(): #add a docstring here to describe  what our get_sales_data function is going to do.
+    """
+    Get sales figures input from the user.
+    """
+    print("Please enter sales data from the last market.") #First, we need to instruct our user  to provide us with their sales data.  
+    print("Data should be six numbers, separated by commas.")
+    print("Example: 10,20,30,40,50,60\n") #a backslash and the letter n, is for an extra line of space under the example data
 
-data = sales.get_all_values() #we’ll use the gspread method get_all_values() to pull all the values from our sales worksheet.  
+    data_str = input("Enter your data here: ") #Next, let’s use the input() method to get our sales  data from the user in the terminal.
+    print(f"The data provided is {data_str}")
 
-print(data)
+
+get_sales_data()#call the function It’s python3 run.py in console
