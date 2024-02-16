@@ -41,7 +41,9 @@ def validate_data(values): #And we will pass it a parameter  of “values” whi
     Raises ValueError if strings cannot be converted into int,
     or if there aren't exactly 6 values.
     """
+
     try:
+        [int(value) for value in values] # --2-- tried this first in shell and it worked so we added after created try and except
         if len(values) != 6: #The len() method returns the length of  the list - the number of values in it.  
             raise ValueError(
                 f"Exactly 6 values required, you provided {len(values)}"
