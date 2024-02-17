@@ -4,6 +4,7 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 SCOPE = [ #The scope lists the APIs that the  program should access in order to run.
     "https://www.googleapis.com/auth/spreadsheets",
@@ -80,8 +81,30 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data) #--5-- another of gspreads methods called append_row() and pass  it our data to be inserted. The append_row method adds a new row to the  end of our data in the worksheet selected. 
     print("Sales worksheet updated successfully.\n")
 
-data = get_sales_data()#call the function It’s python3 run.py in console
+def calculate_surplus_data(sales_row): # --6-- Calculate surplus data..
+    """
+    Compare sales with stock and calculate the surplus for each item type.
+
+    The surplus is defined as the sales figure subtracted from the stock:
+    - Positive surplus indicates waste
+    - Negative surplus indicates extra made when stock was sold out.
+    """
+    print("Calculating surplus data...\n")
+    stock = SHEET.worksheet("stock").get_all_values() #--6-- using the worksheet method of the sheet  variable again, we’ll let the sheet know that we want the data from the “stock” worksheet  this time.And we’ll use another method of the gspread library called get_all_values() to  fetch all of the cells from our stock worksheet.
+    stock_row = stock[-1] #--6-- To make our surplus calculations, we need  to pull the last list out of our stock data.  List index of -1 will slice the final item from the list and return it to the new stock variable. 
+    print(stock_row)
+  
+
+def main(): # --6-- Calculate surplus...it's common practice to wrap the main function calls of a program within a function called main.
+    """
+    Run all program functions
+    """
+    data = get_sales_data()#call the function It’s python3 run.py in console
                        # we add data = in --3-- so  Now our function returns a  value, we need a place to put it, back where it was called. So let’s  define a new variable here called data.3
-print(data)#--3--
-sales_data = [int(num) for num in data] # --4--let’s create a new list comprehension here to transform strings into intergers. we’ll assign the result from the list  comprehension to a new variable named sales_data.
-update_sales_worksheet(sales_data)# --4--
+    print(data)#--3--
+    sales_data = [int(num) for num in data] # --4--let’s create a new list comprehension here to transform strings into intergers. we’ll assign the result from the list  comprehension to a new variable named sales_data.
+    update_sales_worksheet(sales_data)# --4--
+    calculate_surplus_data(sales_data) #--6-- call the function from our main function and remember to pass it our sales data variable.
+
+print("Welcome to Love Sandwiches Data Automation")
+main()
