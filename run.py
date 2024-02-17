@@ -65,30 +65,47 @@ def validate_data(values): #And we will pass it a parameter  of “values” whi
 
     return True  #--3--  If our function runs without any errors, we can return True after the try except statement has completed.
 
-#--5--build a  function that inserts this sales_data as a new entry in our sales  worksheet over in our Google Sheet.
-def update_sales_worksheet(data):
-    """
-    Update sales worksheet, add new row with the list data provided
-    """
-    print("Updating sales worksheet...\n") #--4--The purpose of this is to give the user some  feedback in the terminal as our program completes its task.
-    
-    """
-    Now we need to access our sales  worksheet from our Google Sheet  
-    so that we can add our data to it. So  we’ll declare a variable sales_worksheet,  
-    and then we use the sheet variable we defined at  the top of our page using the gspread library
-    """
-    sales_worksheet = SHEET.worksheet("sales") #--5-- And we’ll use the gspread worksheet()  method to access our sales worksheet.  
-    sales_worksheet.append_row(data) #--5-- another of gspreads methods called append_row() and pass  it our data to be inserted. The append_row method adds a new row to the  end of our data in the worksheet selected. 
-    print("Sales worksheet updated successfully.\n")
 
-def update_surplus_worksheet(data): # --8-- same as above, just change sales for surplus...
+""" 
+""" # in --9-- we dont use this 2 functions anymore, we change them for update_worksheet now.
+#--5--build a  function that inserts this sales_data as a new entry in our sales  worksheet over in our Google Sheet.
+
+####def update_sales_worksheet(data):
+"""
+Update sales worksheet, add new row with the list data provided
+"""
+#####print("Updating sales worksheet...\n") #--4--The purpose of this is to give the user some  feedback in the terminal as our program completes its task.
+    
+"""
+Now we need to access our sales  worksheet from our Google Sheet  
+so that we can add our data to it. So  we’ll declare a variable sales_worksheet,  
+and then we use the sheet variable we defined at  the top of our page using the gspread library
+"""
+####sales_worksheet = SHEET.worksheet("sales") #--5-- And we’ll use the gspread worksheet()  method to access our sales worksheet.  
+####sales_worksheet.append_row(data) #--5-- another of gspreads methods called append_row() and pass  it our data to be inserted. The append_row method adds a new row to the  end of our data in the worksheet selected. 
+####print("Sales worksheet updated successfully.\n")
+
+####def update_surplus_worksheet(data): # --8-- same as above, just change sales for surplus...
+"""
+Update surplus worksheet, add new row with the list data provided
+"""
+####print("Updating surplus worksheet...\n")
+####surplus_worksheet = SHEET.worksheet("surplus")
+####surplus_worksheet.append_row(data)
+####print("Surplus worksheet updated successfully.\n")
+
+"""
+"""
+
+def update_worksheet(data, worksheet):
     """
-    Update surplus worksheet, add new row with the list data provided
+    Receives a list of integers to be inserted into a worksheet
+    Update the relevant worksheet with the data provided
     """
-    print("Updating surplus worksheet...\n")
-    surplus_worksheet = SHEET.worksheet("surplus")
-    surplus_worksheet.append_row(data)
-    print("Surplus worksheet updated successfully.\n")
+    print(f"Updating {worksheet} worksheet...\n")
+    worksheet_to_update = SHEET.worksheet(worksheet) # we'll use our worksheet variable here  to choose which worksheet we want to access.
+    worksheet_to_update.append_row(data) # Now we can append our new row to our  worksheet_to_update.   
+    print(f"{worksheet} worksheet updated successfully\n")
 
 
 def calculate_surplus_data(sales_row): # --6-- Calculate surplus data..
@@ -118,10 +135,12 @@ def main(): # --6-- Calculate surplus...it's common practice to wrap the main fu
     data = get_sales_data()#call the function It’s python3 run.py in console
                        # we add data = in --3-- so  Now our function returns a  value, we need a place to put it, back where it was called. So let’s  define a new variable here called data.3
     sales_data = [int(num) for num in data] # --4--let’s create a new list comprehension here to transform strings into intergers. we’ll assign the result from the list  comprehension to a new variable named sales_data.
-    update_sales_worksheet(sales_data)# --4--
+    ####update_sales_worksheet(sales_data)# --4--we dont need it in --9--
+    update_worksheet(sales_data, "sales") #--9-- instead of update_sales_worksheet function, pass it that second value, for the worksheet parameter. “sales”.
     new_surplus_data = calculate_surplus_data(sales_data) #--6-- call the function from our main function and remember to pass it our sales data variable.
                                                         #--7-- new_surplus_data = is for the returned value (return surplus data above)
-    update_surplus_worksheet(new_surplus_data)         # --8-- to call my new function (update_surplus) and  make sure to pass it the data I want to insert.
+    ####update_surplus_worksheet(new_surplus_data)   #-- we dont need it it 9--      # --8-- to call my new function (update_surplus) and  make sure to pass it the data I want to insert.
+    update_worksheet(new_surplus_data, "surplus") #--9--passing it the value of “surplus” as this time  we want to update the surplus worksheet. 
 
 print("Welcome to Love Sandwiches Data Automation")
 main()
