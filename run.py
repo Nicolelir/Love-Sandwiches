@@ -81,6 +81,16 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data) #--5-- another of gspreads methods called append_row() and pass  it our data to be inserted. The append_row method adds a new row to the  end of our data in the worksheet selected. 
     print("Sales worksheet updated successfully.\n")
 
+def update_surplus_worksheet(data): # --8-- same as above, just change sales for surplus...
+    """
+    Update surplus worksheet, add new row with the list data provided
+    """
+    print("Updating surplus worksheet...\n")
+    surplus_worksheet = SHEET.worksheet("surplus")
+    surplus_worksheet.append_row(data)
+    print("Surplus worksheet updated successfully.\n")
+
+
 def calculate_surplus_data(sales_row): # --6-- Calculate surplus data..
     """
     Compare sales with stock and calculate the surplus for each item type.
@@ -110,7 +120,8 @@ def main(): # --6-- Calculate surplus...it's common practice to wrap the main fu
     sales_data = [int(num) for num in data] # --4--let’s create a new list comprehension here to transform strings into intergers. we’ll assign the result from the list  comprehension to a new variable named sales_data.
     update_sales_worksheet(sales_data)# --4--
     new_surplus_data = calculate_surplus_data(sales_data) #--6-- call the function from our main function and remember to pass it our sales data variable.
-    print(new_surplus_data)                               #--7-- new_surplus_data = is for the returned value (return surplus data above)
+                                                        #--7-- new_surplus_data = is for the returned value (return surplus data above)
+    update_surplus_worksheet(new_surplus_data)         # --8-- to call my new function (update_surplus) and  make sure to pass it the data I want to insert.
 
 print("Welcome to Love Sandwiches Data Automation")
 main()
