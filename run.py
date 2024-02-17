@@ -92,8 +92,14 @@ def calculate_surplus_data(sales_row): # --6-- Calculate surplus data..
     print("Calculating surplus data...\n")
     stock = SHEET.worksheet("stock").get_all_values() #--6-- using the worksheet method of the sheet  variable again, we’ll let the sheet know that we want the data from the “stock” worksheet  this time.And we’ll use another method of the gspread library called get_all_values() to  fetch all of the cells from our stock worksheet.
     stock_row = stock[-1] #--6-- To make our surplus calculations, we need  to pull the last list out of our stock data.  List index of -1 will slice the final item from the list and return it to the new stock variable. 
-    print(stock_row)
+   
   
+    surplus_data = [] #--7-- access to 2 lists and iterate it at the same time...
+    for stock, sales in zip(stock_row, sales_row):
+        surplus = int(stock) - sales #--7--convert the value at the same time as we access it. If we wrap this stock variable in the int() method it will return the converted integer,  and then we can subtract our sales value from it. 
+        surplus_data.append(surplus)
+
+    return surplus_data
 
 def main(): # --6-- Calculate surplus...it's common practice to wrap the main function calls of a program within a function called main.
     """
@@ -101,10 +107,10 @@ def main(): # --6-- Calculate surplus...it's common practice to wrap the main fu
     """
     data = get_sales_data()#call the function It’s python3 run.py in console
                        # we add data = in --3-- so  Now our function returns a  value, we need a place to put it, back where it was called. So let’s  define a new variable here called data.3
-    print(data)#--3--
     sales_data = [int(num) for num in data] # --4--let’s create a new list comprehension here to transform strings into intergers. we’ll assign the result from the list  comprehension to a new variable named sales_data.
     update_sales_worksheet(sales_data)# --4--
-    calculate_surplus_data(sales_data) #--6-- call the function from our main function and remember to pass it our sales data variable.
+    new_surplus_data = calculate_surplus_data(sales_data) #--6-- call the function from our main function and remember to pass it our sales data variable.
+    print(new_surplus_data)                               #--7-- new_surplus_data = is for the returned value (return surplus data above)
 
 print("Welcome to Love Sandwiches Data Automation")
 main()
