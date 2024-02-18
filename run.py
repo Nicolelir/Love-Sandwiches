@@ -4,7 +4,7 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint
+
 
 SCOPE = [ #The scope lists the APIs that the  program should access in order to run.
     "https://www.googleapis.com/auth/spreadsheets",
@@ -28,7 +28,7 @@ def get_sales_data(): #add a docstring here to describe  what our get_sales_data
         print("Data should be six numbers, separated by commas.")
         print("Example: 10,20,30,40,50,60\n") #a backslash and the letter n, is for an extra line of space under the example data
 
-        data_str = input("Enter your data here: ") #Next, let’s use the input() method to get our sales  data from the user in the terminal.
+        data_str = input("Enter your data here:\n") #Next, let’s use the input() method to get our sales  data from the user in the terminal.
     # print(f"The data provided is {data_str}") just for checking the code works, after that we can delete it. 
     
     #VALIDATION--In order to check that the data is valid,  
